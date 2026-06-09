@@ -1,6 +1,7 @@
 export * from './constructor-page';
 export * from './feed';
 export * from './forgot-password';
+export * from './ingredient';
 export * from './login';
 export * from './not-fount-404';
 export * from './profile';

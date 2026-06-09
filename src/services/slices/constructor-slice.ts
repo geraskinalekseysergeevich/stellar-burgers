@@ -108,6 +108,8 @@ const constructorSlice = createSlice({
       .addCase(createOrderThunk.fulfilled, (state, action) => {
         state.orderRequest = false;
         state.orderModalData = action.payload;
+        state.bun = null;
+        state.ingredients = [];
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.orderRequest = false;

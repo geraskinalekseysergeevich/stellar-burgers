@@ -1,6 +1,5 @@
 import { FC, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import {

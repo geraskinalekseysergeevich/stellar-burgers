@@ -108,12 +108,13 @@ export const logoutThunk = createAsyncThunk<
 >('user/logout', async (_, { rejectWithValue }) => {
   try {
     await logoutApi();
-    localStorage.removeItem('refreshToken');
-    deleteCookie('accessToken');
   } catch (error) {
     return rejectWithValue(
       error instanceof Error ? error.message : 'Не удалось выйти'
     );
+  } finally {
+    localStorage.removeItem('refreshToken');
+    deleteCookie('accessToken');
   }
 });
 
@@ -217,6 +218,11 @@ const userSlice = createSlice({
         state.error = action.payload ?? 'Не удалось обновить профиль';
       })
       .addCase(logoutThunk.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isAuthChecked = true;
+      })
+      .addCase(logoutThunk.rejected, (state) => {
         state.user = null;
         state.isAuthenticated = false;
         state.isAuthChecked = true;

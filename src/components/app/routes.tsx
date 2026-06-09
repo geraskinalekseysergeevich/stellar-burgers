@@ -19,6 +19,7 @@ import {
   ForgotPassword,
   Login,
   NotFound404,
+  Order,
   Profile,
   ProfileOrders,
   Register,
@@ -106,7 +107,7 @@ export const AppRoutes: FC = () => {
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/feed/:number' element={<Order />} />
         <Route element={<RequireAnon />}>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
@@ -116,7 +117,7 @@ export const AppRoutes: FC = () => {
         <Route element={<RequireAuth />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/orders' element={<ProfileOrders />} />
-          <Route path='/profile/orders/:number' element={<OrderInfo />} />
+          <Route path='/profile/orders/:number' element={<Order />} />
         </Route>
         <Route path='/ingredients/:id' element={<Ingredient />} />
         <Route path='*' element={<NotFound404 />} />

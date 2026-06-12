@@ -2,6 +2,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { Location, useLocation, useNavigate } from 'react-router-dom';
 
 import { registerThunk } from '../../services/slices/user-slice';
+import { clearUserError } from '../../services/slices/user-slice';
 import { RegisterUI } from '@ui-pages';
 import {
   selectIsAuthenticated,
@@ -30,11 +31,19 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerThunk({ name: userName, email, password }))
-      .unwrap()
-      .then(() => {
+
+    dispatch(clearUserError());
+
+    (async () => {
+      try {
+        await dispatch(
+          registerThunk({ name: userName, email, password })
+        ).unwrap();
         navigate(from, { replace: true });
-      });
+      } catch {
+        // error is stored in redux and displayed by the form
+      }
+    })();
   };
 
   return (

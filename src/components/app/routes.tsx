@@ -1,7 +1,5 @@
 import { FC } from 'react';
 import {
-  Navigate,
-  Outlet,
   Route,
   Routes,
   useLocation,
@@ -12,7 +10,6 @@ import {
 import { Modal } from '@components';
 import { IngredientDetails } from '@components';
 import { OrderInfo } from '@components';
-import { Preloader } from '@ui';
 import {
   ConstructorPage,
   Feed,
@@ -25,46 +22,12 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import {
-  selectIsAuthChecked,
-  selectIsAuthenticated
-} from '../../services/selectors';
-import { useSelector } from '../../services/store';
 import { Ingredient } from '../../pages/ingredient';
+import { RequireAnon } from './require-anon';
+import { RequireAuth } from './require-auth';
 
 type TLocationState = {
   background?: Location;
-};
-
-const RequireAuth: FC = () => {
-  const isAuthChecked = useSelector(selectIsAuthChecked);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const location = useLocation();
-
-  if (!isAuthChecked) {
-    return <Preloader />;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to='/login' replace state={{ from: location }} />;
-  }
-
-  return <Outlet />;
-};
-
-const RequireAnon: FC = () => {
-  const isAuthChecked = useSelector(selectIsAuthChecked);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-
-  if (!isAuthChecked) {
-    return <Preloader />;
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to='/' replace />;
-  }
-
-  return <Outlet />;
 };
 
 const IngredientModal: FC = () => {

@@ -1,23 +1,40 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import {
+  clearSelectedOrder,
+  getOrderByNumberThunk
+} from '../../services/slices/orders-slice';
+import {
+  selectIngredients,
+  selectIngredientsLoading,
+  selectSelectedOrderError,
+  selectSelectedOrder,
+  selectSelectedOrderLoading
+} from '../../services/selectors';
+import { useDispatch, useSelector } from '../../services/store';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useDispatch();
+  const { number } = useParams();
+  const orderData = useSelector(selectSelectedOrder);
+  const ingredients = useSelector(selectIngredients);
+  const loading = useSelector(selectSelectedOrderLoading);
+  const ingredientsLoading = useSelector(selectIngredientsLoading);
+  const error = useSelector(selectSelectedOrderError);
 
-  const ingredients: TIngredient[] = [];
+  useEffect(() => {
+    if (number) {
+      dispatch(getOrderByNumberThunk(Number(number)));
+    }
 
-  /* Готовим данные для отображения */
+    return () => {
+      dispatch(clearSelectedOrder());
+    };
+  }, [dispatch, number]);
+
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
@@ -59,7 +76,11 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (!orderInfo) {
+  if (error) {
+    return <div className='text text_type_main-medium pt-10'>{error}</div>;
+  }
+
+  if (loading || ingredientsLoading || !orderInfo) {
     return <Preloader />;
   }
 

@@ -6,8 +6,6 @@ describe('Constructor page', () => {
     cy.intercept('GET', '**/auth/user', { fixture: 'user.json' }).as(
       'getUser'
     );
-    cy.visit('/');
-    cy.wait(['@getIngredients', '@getUser']);
   });
 
   afterEach(() => {
@@ -15,6 +13,9 @@ describe('Constructor page', () => {
   });
 
   it('adds ingredients from list to constructor', () => {
+    cy.visit('/');
+    cy.wait(['@getIngredients', '@getUser']);
+
     cy.fixture('ingredients.json').then(({ data }) => {
       const bun = data.find((item: { type: string }) => item.type === 'bun');
       const filling = data.find((item: { type: string }) => item.type === 'main');
@@ -42,6 +43,9 @@ describe('Constructor page', () => {
   });
 
   it('opens and closes ingredient modal', () => {
+    cy.visit('/');
+    cy.wait(['@getIngredients', '@getUser']);
+
     cy.fixture('ingredients.json').then(({ data }) => {
       const ingredient = data.find(
         (item: { type: string }) => item.type === 'main'
@@ -66,6 +70,9 @@ describe('Constructor page', () => {
   });
 
   it('closes ingredient modal by overlay click', () => {
+    cy.visit('/');
+    cy.wait(['@getIngredients', '@getUser']);
+
     cy.fixture('ingredients.json').then(({ data }) => {
       const ingredient = data.find(
         (item: { type: string }) => item.type === 'main'
@@ -87,17 +94,20 @@ describe('Constructor page', () => {
       'createOrder'
     );
 
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('refreshToken', 'test-refresh-token');
+        win.document.cookie = 'accessToken=Bearer test-access-token; path=/';
+      }
+    });
+    cy.wait(['@getIngredients', '@getUser']);
+
     cy.fixture('ingredients.json').then(({ data }) => {
       const bun = data.find((item: { type: string }) => item.type === 'bun');
       const filling = data.find((item: { type: string }) => item.type === 'main');
 
       expect(bun).to.exist;
       expect(filling).to.exist;
-
-      cy.seedAuth({
-        accessToken: 'Bearer test-access-token',
-        refreshToken: 'test-refresh-token'
-      });
 
       cy.contains(bun!.name).parents('li').within(() => {
         cy.contains('Добавить').click();

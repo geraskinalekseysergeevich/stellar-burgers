@@ -1,7 +1,10 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      seedAuth(tokens: { accessToken: string; refreshToken: string }): Chainable<void>;
+      seedAuth(tokens: {
+        accessToken: string;
+        refreshToken: string;
+      }): Chainable<void>;
       clearAuth(): Chainable<void>;
     }
   }

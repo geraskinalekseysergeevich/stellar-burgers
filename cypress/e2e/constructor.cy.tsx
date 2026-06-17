@@ -3,9 +3,7 @@ describe('Constructor page', () => {
     cy.intercept('GET', '**/ingredients', { fixture: 'ingredients.json' }).as(
       'getIngredients'
     );
-    cy.intercept('GET', '**/auth/user', { fixture: 'user.json' }).as(
-      'getUser'
-    );
+    cy.intercept('GET', '**/auth/user', { fixture: 'user.json' }).as('getUser');
   });
 
   afterEach(() => {
@@ -18,22 +16,30 @@ describe('Constructor page', () => {
 
     cy.fixture('ingredients.json').then(({ data }) => {
       const bun = data.find((item: { type: string }) => item.type === 'bun');
-      const filling = data.find((item: { type: string }) => item.type === 'main');
+      const filling = data.find(
+        (item: { type: string }) => item.type === 'main'
+      );
 
       expect(bun).to.exist;
       expect(filling).to.exist;
 
-      cy.contains(bun!.name).parents('li').within(() => {
-        cy.contains('Добавить').click();
-      });
+      cy.contains(bun!.name)
+        .parents('li')
+        .within(() => {
+          cy.contains('Добавить').click();
+        });
 
-      cy.contains(filling!.name).parents('li').within(() => {
-        cy.contains('Добавить').click();
-      });
+      cy.contains(filling!.name)
+        .parents('li')
+        .within(() => {
+          cy.contains('Добавить').click();
+        });
 
-      cy.contains('Оформить заказ').parents('section').within(() => {
-        cy.contains(filling!.name).should('be.visible');
-      });
+      cy.contains('Оформить заказ')
+        .parents('section')
+        .within(() => {
+          cy.contains(filling!.name).should('be.visible');
+        });
 
       cy.contains(`${bun!.name} (верх)`).should('be.visible');
       cy.contains(`${bun!.name} (низ)`).should('be.visible');
@@ -104,18 +110,24 @@ describe('Constructor page', () => {
 
     cy.fixture('ingredients.json').then(({ data }) => {
       const bun = data.find((item: { type: string }) => item.type === 'bun');
-      const filling = data.find((item: { type: string }) => item.type === 'main');
+      const filling = data.find(
+        (item: { type: string }) => item.type === 'main'
+      );
 
       expect(bun).to.exist;
       expect(filling).to.exist;
 
-      cy.contains(bun!.name).parents('li').within(() => {
-        cy.contains('Добавить').click();
-      });
+      cy.contains(bun!.name)
+        .parents('li')
+        .within(() => {
+          cy.contains('Добавить').click();
+        });
 
-      cy.contains(filling!.name).parents('li').within(() => {
-        cy.contains('Добавить').click();
-      });
+      cy.contains(filling!.name)
+        .parents('li')
+        .within(() => {
+          cy.contains('Добавить').click();
+        });
 
       cy.contains('Оформить заказ').click();
       cy.wait('@createOrder');

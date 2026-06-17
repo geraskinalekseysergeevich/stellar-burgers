@@ -83,10 +83,7 @@ describe('burgerConstructor reducer', () => {
     const secondIngredient = { ...filling, _id: 'main-2', id: 'item-2' };
     const startState = {
       ...constructorInitialState,
-      ingredients: [
-        { ...filling, id: 'item-1' },
-        secondIngredient
-      ]
+      ingredients: [{ ...filling, id: 'item-1' }, secondIngredient]
     };
 
     const state = reducer(

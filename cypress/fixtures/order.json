@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "name": "Space бургер",
+  "order": {
+    "_id": "66c0f0000000000000000001",
+    "status": "done",
+    "name": "Space бургер",
+    "owner": {
+      "name": "Test User",
+      "email": "tester@example.com",
+      "createdAt": "2026-06-15T00:00:00.000Z",
+      "updatedAt": "2026-06-15T00:00:00.000Z"
+    },
+    "createdAt": "2026-06-15T00:00:00.000Z",
+    "updatedAt": "2026-06-15T00:00:00.000Z",
+    "number": 424242,
+    "price": 1759
+  }
+}

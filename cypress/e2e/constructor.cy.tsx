@@ -30,6 +30,10 @@ describe('Constructor page', () => {
         cy.contains('Добавить').click();
       });
 
+      cy.contains('Оформить заказ').parents('section').within(() => {
+        cy.contains(filling!.name).should('be.visible');
+      });
+
       cy.contains(`${bun!.name} (верх)`).should('be.visible');
       cy.contains(`${bun!.name} (низ)`).should('be.visible');
       cy.contains('Выберите булки').should('not.exist');

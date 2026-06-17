@@ -59,6 +59,23 @@ describe('Constructor page', () => {
     });
   });
 
+  it('closes ingredient modal by overlay click', () => {
+    cy.fixture('ingredients.json').then(({ data }) => {
+      const ingredient = data.find(
+        (item: { type: string }) => item.type === 'main'
+      );
+
+      expect(ingredient).to.exist;
+
+      cy.contains(ingredient!.name).click();
+      cy.contains('Детали ингредиента').should('be.visible');
+
+      cy.get('#modals').children().last().click({ force: true });
+
+      cy.contains('Детали ингредиента').should('not.exist');
+    });
+  });
+
   it('creates order and clears constructor after closing modal', () => {
     cy.intercept('POST', '**/orders', { fixture: 'order.json' }).as(
       'createOrder'

@@ -51,12 +51,14 @@ describe('Constructor page', () => {
 
       cy.contains(ingredient!.name).click();
 
-      cy.contains('Детали ингредиента').should('be.visible');
-      cy.contains(ingredient!.name).should('be.visible');
-      cy.contains('Калории, ккал')
-        .parent()
-        .contains(String(ingredient!.calories))
-        .should('be.visible');
+      cy.get('#modals').within(() => {
+        cy.contains('Детали ингредиента').should('be.visible');
+        cy.contains(ingredient!.name).should('be.visible');
+        cy.contains('Калории, ккал')
+          .parent()
+          .contains(String(ingredient!.calories))
+          .should('be.visible');
+      });
 
       cy.contains('Детали ингредиента').parent().find('button').click();
       cy.contains('Детали ингредиента').should('not.exist');

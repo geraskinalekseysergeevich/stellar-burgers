@@ -133,7 +133,9 @@ describe('Constructor page', () => {
       cy.wait('@createOrder');
 
       cy.fixture('order.json').then(({ order }) => {
-        cy.contains(String(order.number)).should('be.visible');
+        cy.get('#modals').within(() => {
+          cy.contains(String(order.number)).should('be.visible');
+        });
       });
 
       cy.get('body').type('{esc}');

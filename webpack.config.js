@@ -90,6 +90,10 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
     port: 4000,
-    open: true
+    host: '127.0.0.1',
+    client: {
+      overlay: false
+    },
+    open: false
   }
 };
